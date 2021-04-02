@@ -1,4 +1,5 @@
 export default function initfetchBitcoin() {
+  console.log('TESTE')
   function bitcoinBRL(btcPrice) {
     const btcHtmlPrice = document.querySelector('.btc-price')
     const btcPriceBRL = btcPrice.sell
