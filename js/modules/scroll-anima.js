@@ -1,28 +1,43 @@
 export default class ScrollAnima {
   constructor(sections) {
     this.sections = document.querySelectorAll(sections)
+
     this.windowHeight = window.innerHeight
     this.windowPercent = (this.windowHeight * 70) / 100
 
-    this.animaScroll = this.animaScroll.bind(this)
+    this.checkDistance = this.checkDistance.bind(this)
   }
 
-  animaScroll() {
-    this.sections.forEach((section) => {
-      const sectionTop = section.getBoundingClientRect().top - this.windowPercent
-      if(sectionTop < 0) {
-        section.classList.add('ativo')
-      } else if(section.classList.contains('ativo')) {
-        section.classList.remove('ativo')
+  getDistance() {
+    this.distance = [...this.sections].map(section => {
+      const offset = section.offsetTop
+      return {
+        element: section,
+        offset: Math.floor(offset - this.windowPercent),
+      }
+    })
+  }
+
+  checkDistance() {
+    this.distance.forEach(item => {
+      if(window.pageYOffset > item.offset) {
+        item.element.classList.add('ativo')
+      } else if(item.element.classList.contains('ativo')) {
+        item.element.classList.remove('ativo')
       }
     })
   }
 
   init() {
     if(this.sections.length) {
-      this.animaScroll()
-      window.addEventListener('scroll', this.animaScroll)
+      this.getDistance()
+      this.checkDistance()
+      window.addEventListener('scroll', this.checkDistance)
     }
     return this
+  }
+
+  stop() {
+    window.removeEventListener('scroll', this.checkDistance)
   }
 }
