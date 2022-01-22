@@ -39,3 +39,5 @@ fetchBitcoin('https://blockchain.info/ticker', '.btc-price')
 
 const scrollAnima = new ScrollAnima('[data-anime="scroll"]')
 scrollAnima.init()
+
+// Teste
